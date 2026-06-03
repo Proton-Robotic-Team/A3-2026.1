@@ -2,7 +2,8 @@
 #include "PID.h"
 #include "Motores.h"
 #include "QRE1113.h"
-#include "Configuracoes.h"
+#include "Configuracoes.h"´
+#include "Logger.h"
 
 int16_t erroAnterior = 0;
 int32_t integral = 0;
