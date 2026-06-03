@@ -7,6 +7,7 @@
 #include "Display.h"
 #include "Menus.h"
 #include "LSM6DS3.h"
+#include "Logger.h"
 // #include "ServidorWeb.h"
 
 // Não esqueça de upar os arquivos do servidor web
@@ -35,6 +36,7 @@ void setup() {
     configurarModuloQRE();
     inicializarLSM6DS3();
     delayAntesDoStart();
+    logger.begin();
   }
 }
 
@@ -55,4 +57,8 @@ void loop() {
   }
   lerSensorLSM6DS3();
   delay(DELAY_LOOP_MS);
+  if (/* condição de fim de corrida */) {
+    logger.endRun();
+    // ou logger.endRun() quando plugar no PC
+}
 }

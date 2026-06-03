@@ -56,4 +56,5 @@ void seguirLinha() {
     Serial.print(" | D: ");
     Serial.println(KD, 3);
   }
+  logger.log(erroAnterior, correcao, velocidadeEsquerda, velocidadeDireita);
 }
