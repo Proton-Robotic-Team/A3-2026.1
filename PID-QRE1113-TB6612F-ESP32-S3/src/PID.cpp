@@ -2,8 +2,9 @@
 #include "PID.h"
 #include "Motores.h"
 #include "QRE1113.h"
-#include "Configuracoes.h"´
 #include "Logger.h"
+#include "Configuracoes.h"
+
 
 int16_t erroAnterior = 0;
 int32_t integral = 0;
@@ -31,6 +32,7 @@ int32_t calcularPID() {
 }
 
 void seguirLinha() {
+  
   int32_t correcao = calcularPID();
 
   correcao = constrain(correcao, -150, 150);
@@ -42,6 +44,10 @@ void seguirLinha() {
   velocidadeEsquerda = constrain(velocidadeEsquerda, DUTY_CYCLE_MIN, DUTY_CYCLE_MAX);
 
   controleMotores(1, velocidadeDireita, velocidadeEsquerda);
+
+  float P_term = (float)correcao;   
+  float I_term = KI * integral;
+  float D_term = 0.0f;              
 
   if (DEBUG_PID_ATIVADO) {
     Serial.print("Correção: ");
@@ -57,5 +63,7 @@ void seguirLinha() {
     Serial.print(" | D: ");
     Serial.println(KD, 3);
   }
-  logger.log(erroAnterior, correcao, velocidadeEsquerda, velocidadeDireita);
+
+  logger.log(erroAnterior, correcao, velocidadeEsquerda, velocidadeDireita,
+             P_term, I_term, D_term, 0.0f);
 }

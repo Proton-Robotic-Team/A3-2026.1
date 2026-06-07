@@ -27,6 +27,7 @@ private:
 public:
     void begin();
     void log(int erro, float correcao, int pwmE, int pwmD);
+    void log(int erro, float correcao, int pwmE, int pwmD, float kp, float ki_term, float kd_term, float rpmVal);
     void endRun();
     void printStats();
     void saveToSerialCSV();

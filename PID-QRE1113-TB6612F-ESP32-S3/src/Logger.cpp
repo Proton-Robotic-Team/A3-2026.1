@@ -10,27 +10,26 @@ void Logger::begin() {
     Serial.println("tempo_ms,rpm,vel_kmh,erro,correcao_pid,pwm_esq,pwm_dir");
 }
 
-void Logger::log(int erro, float correcao, int pwmE, int pwmD) {
+void Logger::log(int erro, float correcao, int pwmE, int pwmD, float kp, float ki_term, float kd_term, float rpmVal) {
     if (millis() - lastLog < 80) return;
 
     float deltaT = (millis() - lastLog) / 1000.0f;
-    float velInstant = ((abs(pwmE) + abs(pwmD)) / 2.0f) * 0.0018f; 
+    float velInstant = ((abs(pwmE) + abs(pwmD)) / 2.0f) * 0.0018f;
     distancia += velInstant * deltaT;
 
     LogEntry entry;
     entry.tempo = millis() - startTime;
-    entry.rpm = rpm;
-    entry.velKmh = rpm * 0.018;        // Ajuste depois com diâmetro da roda
+    entry.rpm = rpmVal;
+    entry.velKmh = rpmVal * 0.018;
     entry.erro = erro;
     entry.correcaoPID = correcao;
     entry.pwmEsq = pwmE;
     entry.pwmDir = pwmD;
-    entry.kp_term = erro * Kp;
-    entry.ki_term = integral;
-    entry.kd_term = derivative;
+    entry.kp_term = kp;
+    entry.ki_term = ki_term;
+    entry.kd_term = kd_term;
 
     logs.push_back(entry);
-
     Serial.printf("%lu,%.1f,%.2f,%d,%.1f,%d,%d\n",
         entry.tempo, entry.rpm, entry.velKmh, entry.erro,
         entry.correcaoPID, entry.pwmEsq, entry.pwmDir);
