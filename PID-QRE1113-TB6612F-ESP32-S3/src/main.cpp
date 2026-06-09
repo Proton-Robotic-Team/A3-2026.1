@@ -57,6 +57,7 @@ void loop() {
   }
   lerSensorLSM6DS3();
   delay(DELAY_LOOP_MS);
+  logger.endRun();
   //if (condicao) {
   //seria a de fim de corrida
     //logger.endRun();
